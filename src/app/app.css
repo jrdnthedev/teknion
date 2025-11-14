@@ -4,7 +4,7 @@ main {
     gap: 8px;
 }
 
-@media screen and (min-width:768px) {
+@media screen and (min-width:1024px) {
     main{
         flex-direction: row;
         gap: 24px;
@@ -14,12 +14,12 @@ main {
     }
 
     aside {
-        flex: 0 0 250px;
+        flex: 0 0 350px;
     }
 }
 
-@media screen and (min-width:1024px) {
+@media screen and (min-width:1224px) {
     aside {
-        flex: 0 0 350px;
+        flex: 0 0 450px;
     }
 }
