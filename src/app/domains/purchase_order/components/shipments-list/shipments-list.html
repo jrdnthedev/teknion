@@ -1,11 +1,7 @@
 <ul>
+  @for(entry of shipment; track entry.shipmentId) {
   <li>
-    <app-shipment></app-shipment>
+    <app-shipment [shipmentDetails]="entry"></app-shipment>
   </li>
-  <li>
-    <app-shipment></app-shipment>
-  </li>
-  <li>
-    <app-shipment></app-shipment>
-  </li>
+  }
 </ul>

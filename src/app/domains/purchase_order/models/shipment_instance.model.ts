@@ -1,6 +1,6 @@
 import { OrderAlert } from './order_alert';
 
-export interface ShipmentInstance {
+export interface ShipmentInstanceModel {
   instanceId: string;
   status: 'In Transit' | 'Delivered' | 'Delayed';
   instanceAlerts: OrderAlert[];

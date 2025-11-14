@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Card } from '../../../../shared/components/card/card';
-import { ShipmentsList } from '../shipments-list/shipments-list';
+import { PurchaseOrder } from '../../models/purchase_order';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-po-detail',
-  imports: [Card,ShipmentsList],
+  imports: [Card, DatePipe],
   templateUrl: './po-detail.html',
   styleUrl: './po-detail.css',
 })
 export class PoDetail {
-
+  @Input() order!: PurchaseOrder;
 }

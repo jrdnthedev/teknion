@@ -2,12 +2,12 @@
   <div card-header>Shipment</div>
   <div card-body>
     <div class="shipment-details">
-      <p>Shipment #1</p>
-      <p>Shipment ID: CNTR-001</p>
-      <p>Status: Booked</p>
-      <p>Load Plan: this is a test plan</p>
-      <!-- <p>Line ids: </p> -->
-      <p>Alerts: Temperature Breach</p>
+      <p>Shipment ID: {{shipmentDetails.shipmentId}}</p>
+      <p>Status: {{shipmentDetails.status}}</p>
+      <p>Load Plan: {{shipmentDetails.loadPlan}}</p>
+       @for(instance of shipmentDetails.shipmentInstances; track instance.instanceId) {
+        <app-shipment-instance [instance]="instance"></app-shipment-instance>
+       }
     </div>
   </div>
 </app-card>

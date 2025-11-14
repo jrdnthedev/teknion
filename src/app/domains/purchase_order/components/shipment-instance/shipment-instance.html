@@ -1,1 +1,14 @@
-<p>shipment-instance works!</p>
+<app-accordion [id]="instance.instanceId" [controlId]="`test`+instance.instanceId">
+  <div class="shipment-instance">
+    <p>{{ instance.instanceId }}</p>
+    <p>{{ instance.status }}</p>
+    @if(instance.instanceAlerts.length >= 1) {
+    <p>Alerts:</p>
+    @for(alert of instance.instanceAlerts; track alert.alertId) {
+    {{ alert.severity }}
+    } }
+    <p>{{ instance.trakcingDetail.carrier }}</p>
+    <p>{{ instance.trakcingDetail.trackingNumber }}</p>
+    <p>{{ instance.trakcingDetail.lastUpdate }}</p>
+  </div>
+</app-accordion>

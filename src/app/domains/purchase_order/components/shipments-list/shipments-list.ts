@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ShipmentModel } from '../../models/shipment.model';
 import { Shipment } from '../shipment/shipment';
 
 @Component({
@@ -8,5 +9,5 @@ import { Shipment } from '../shipment/shipment';
   styleUrl: './shipments-list.css',
 })
 export class ShipmentsList {
-
+  @Input() shipment!:ShipmentModel[];
 }

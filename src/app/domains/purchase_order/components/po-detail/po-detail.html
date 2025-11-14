@@ -1,25 +1,31 @@
+
 <app-card>
   <div card-header>
     <div class="detail-header">
-      <h2>#123456</h2>
-      <p>Acme Corp</p>
-      <div class="tag-list">
-        <span>Urgent</span>
-        <span>International</span>
-        <span>Customs Required</span>
-      </div>
+      <h2>{{ order.poId }}</h2>
+      <p>{{order.poDate | date}}</p>
+      <p>{{ order.status }}</p>
+      <ul class="tag-list">
+        @for(tag of order.poTags; track $index){
+        <li><span>{{ tag.value }}</span></li>
+        }
+      </ul>
     </div>
   </div>
   <div card-body>
     <div class="detail-summary">
       <h2>Logistics Summary</h2>
       <ul>
-        <li>Total Shipments: 3</li>
-        <li>Expected Delivery Nov 20, 2025</li>
-        <li>Origin: Shenzhen, China</li>
-        <li>Destination: Toronto, Canada</li>
+        <li>Total Shipments: {{ order.shipments.length }}</li>
+        <li>Order Date {{ order.poDate }}</li>
+      </ul>
+      <h2>Order Lines</h2>
+      <ul>
+        @for(line of order.orderLines; track line.lineId) {
+          <li>{{line.lineId}}</li>
+        }
       </ul>
     </div>
   </div>
 </app-card>
-<app-shipments-list></app-shipments-list>
+

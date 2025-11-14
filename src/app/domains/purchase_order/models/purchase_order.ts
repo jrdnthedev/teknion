@@ -1,7 +1,7 @@
 import { OrderAlert } from './order_alert';
 import { OrderLine } from './order_line';
 import { OrderTag } from './order_tag';
-import { Shipment } from './shipment';
+import { ShipmentModel } from './shipment.model';
 
 export interface PurchaseOrder {
   poId: string;
@@ -11,5 +11,5 @@ export interface PurchaseOrder {
   poTags: OrderTag[];
   poAlerts: OrderAlert[];
   orderLines: OrderLine[];
-  shipments: Shipment;
+  shipments: ShipmentModel[];
 }
