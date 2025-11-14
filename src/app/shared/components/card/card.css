@@ -14,14 +14,14 @@
   box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-.card ::ng-deep [card-header] {
+.card .header {
   border-bottom: 1px solid #e2e8f0;
-  background-color: lightgray;
+  background-color: #ecf0f1;
   padding-bottom: 8px;
   font-weight: 600;
   padding: 12px;
 }
 
-.card ::ng-deep [card-body] {
+.card .body {
   padding: 12px;
 }

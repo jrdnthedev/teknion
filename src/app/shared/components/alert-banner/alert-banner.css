@@ -1,8 +1,11 @@
 .alert-banner {
     display: flex;
+    flex-direction: column;
     padding: 4px;
+    gap: 6px;
     border-radius: 4px;
     border-left: 4px solid;
+    font-size: 14px;
 }
 
 .alert-banner.severity-high {

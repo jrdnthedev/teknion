@@ -16,7 +16,7 @@
 .accordion-trigger {
   border: none;
   width: 100%;
-  padding: 4px 8px;
+  padding: 8px 12px;
 }
 
 .accordion-wrapper {
@@ -51,7 +51,11 @@
 
 .dot {
   border-radius: 100%;
-  background-color: red;
+  background-color: #991b1b;
   height: 8px;
   width: 8px;
+}
+
+h3 {
+  font-size: 16px;
 }
