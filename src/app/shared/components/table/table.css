@@ -5,6 +5,9 @@ table {
 }
 #table-wrapper {
   overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 thead,

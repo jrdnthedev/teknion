@@ -11,7 +11,8 @@
       <option [value]="order.lineId">{{ order.lineId }}</option>
       }
     </select>
-    <app-table [data]="filteredOrderLines"></app-table>
+
+    <app-table [data]="filteredOrderLines" tableName="Order Lines Table"></app-table>
   </section>
   <aside>
     <app-po-detail [order]="purchaseOrder"></app-po-detail>

@@ -31,3 +31,16 @@ h4 {
     font-size: 16px;
     letter-spacing: .5px;
 }
+
+a:focus,
+button:focus,   
+select:focus {
+  outline: none;
+  border-color: #d82f5a;
+  border-radius: 4px;
+  box-shadow:
+    0 0 4px #d82f5a,
+    0 0 4px #d82f5a,
+    0 0 2px #d82f5a,
+    0 0 4px rgba(216, 47, 90, 0.6);
+}
