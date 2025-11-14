@@ -13,7 +13,7 @@ export interface TableColumn {
 export class Table<T> {
   @Input() data: T[] = [];
   @Input() columns: TableColumn[] = [];
-  @Input() tableName = '';
+  @Input() tableTitle = '';
 
   get headers(): string[] {
     // If columns are provided, use them; otherwise auto-generate from data
