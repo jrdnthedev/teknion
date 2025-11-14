@@ -1,31 +1,40 @@
-
 <app-card>
   <div card-header>
     <div class="detail-header">
       <h2>{{ order.poId }}</h2>
-      <p>{{order.poDate | date}}</p>
-      <p>{{ order.status }}</p>
+      <div id="order-details">
+        <p>{{ order.poDate | date }}</p>
+        <p>{{ order.status }}</p>
+      </div>
+
       <ul class="tag-list">
         @for(tag of order.poTags; track $index){
-        <li><span>{{ tag.value }}</span></li>
+        <li>
+          <span>{{ tag.value }}</span>
+        </li>
         }
       </ul>
     </div>
   </div>
   <div card-body>
     <div class="detail-summary">
-      <h2>Logistics Summary</h2>
+      <h4>Logistics Summary</h4>
       <ul>
-        <li>Total Shipments: {{ order.shipments.length }}</li>
-        <li>Order Date {{ order.poDate }}</li>
+        <li>
+          <p>Total Shipments: {{ order.shipments.length }}</p>
+        </li>
+        <li>
+          <p>Order Date: {{ order.poDate | date }}</p>
+        </li>
       </ul>
-      <h2>Order Lines</h2>
+      <h4>Order Lines</h4>
       <ul>
         @for(line of order.orderLines; track line.lineId) {
-          <li>{{line.lineId}}</li>
+        <li>
+          <p>{{ line.lineId }}</p>
+        </li>
         }
       </ul>
     </div>
   </div>
 </app-card>
-

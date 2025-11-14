@@ -1,14 +1,18 @@
-<app-accordion [id]="instance.instanceId" [controlId]="`test`+instance.instanceId">
+<app-accordion
+  [id]="instance.instanceId"
+  [controlId]="`test`+instance.instanceId"
+  [isWarning]="instance.instanceAlerts.length > 0"
+  [name]="instance.instanceId"
+>
   <div class="shipment-instance">
-    <p>{{ instance.instanceId }}</p>
-    <p>{{ instance.status }}</p>
-    @if(instance.instanceAlerts.length >= 1) {
-    <p>Alerts:</p>
-    @for(alert of instance.instanceAlerts; track alert.alertId) {
-    {{ alert.severity }}
+    <p><span class="">Id:</span> {{ instance.instanceId }}</p>
+    <p><span class="">Status:</span> {{ instance.status }}</p>
+    @if(instance.instanceAlerts.length >= 1) { @for(alert of instance.instanceAlerts; track
+    alert.alertId) {
+    <app-alert-banner [alert]="alert"></app-alert-banner>
     } }
-    <p>{{ instance.trakcingDetail.carrier }}</p>
-    <p>{{ instance.trakcingDetail.trackingNumber }}</p>
-    <p>{{ instance.trakcingDetail.lastUpdate }}</p>
+    <p><span class="">Carrier:</span> {{ instance.trakcingDetail.carrier }}</p>
+    <p><span class="">Tracking Number:</span> {{ instance.trakcingDetail.trackingNumber }}</p>
+    <p><span class="">Last Update:</span> {{ instance.trakcingDetail.lastUpdate | date}}</p>
   </div>
 </app-accordion>
