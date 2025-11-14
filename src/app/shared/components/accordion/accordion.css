@@ -1,0 +1,37 @@
+.accordion-panel {
+  display: none;
+  padding: 0 8px;
+}
+
+.accordion-panel.expanded {
+  display: block;
+}
+
+/* .accordion-icon {
+  border: solid currentcolor;
+  border-width: 0 2px 2px 0;
+  height: 0.5rem;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-60%) rotate(45deg);
+  width: 0.5rem;
+} */
+
+.accordion-title {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.accordion-trigger {
+  border: none;
+  width: 100%;
+  padding: 4px 8px;
+}
+
+.accordion-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

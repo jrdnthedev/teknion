@@ -1,0 +1,26 @@
+<div class="accordion-wrapper">
+  <h3>
+    <button
+      type="button"
+      [aria-expanded]="isExpanded()"
+      class="accordion-trigger"
+      [attr.aria-controls]="controlId"
+      [id]="id"
+      (click)="toggle()"
+    >
+      <span class="accordion-title">
+        <span>{{ name }}</span>
+        <span class="accordion-indicators">T</span>
+      </span>
+    </button>
+  </h3>
+  <div
+    [id]="controlId"
+    role="region"
+    [attr.aria-labelledby]="id"
+    class="accordion-panel"
+    [class.expanded]="isExpanded()"
+  >
+    <ng-content></ng-content>
+  </div>
+</div>

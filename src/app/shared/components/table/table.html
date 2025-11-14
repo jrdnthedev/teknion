@@ -1,0 +1,24 @@
+<div id="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        @for (header of headers; track $index) {
+          <th>
+            {{ getHeaderLabel(header) }}
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of data; track $index) {
+        <tr>
+          @for (header of headers; track $index) {
+            <td [attr.data-label]="getHeaderLabel(header)">
+              {{ getValue(row, header) }}
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
