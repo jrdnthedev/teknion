@@ -1,11 +1,11 @@
-import { Component, inject } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { PurchaseOrder } from '../../models/purchase_order';
 import { PoService } from '../../services/po-service/po-service';
 import { AsyncPipe } from '@angular/common';
 import { OrderLineModel } from '../../models/order_line';
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-po-list',
@@ -16,13 +16,27 @@ import { map } from 'rxjs/operators';
 export class PoList {
   purchaseOrderService = inject(PoService);
   purchaseOrder$ = this.purchaseOrderService.orders$;
-
+  showWelcome = signal(true);
   private filterSubject = new BehaviorSubject<string>('All');
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    // Check initial route
+    this.checkRouteState();
+
+    // Listen for route changes
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        map(() => this.checkRouteState())
+      )
+      .subscribe();
+  }
 
   orderIds$: Observable<string[]> = this.purchaseOrder$.pipe(
     map((orders) => {
       if (!orders || orders.length === 0) return ['All'];
-      
+
       const uniqueOrderIds = new Set<string>();
       orders.forEach((order: PurchaseOrder) => {
         order.orderLines?.forEach((line: OrderLineModel) => {
@@ -31,7 +45,7 @@ export class PoList {
           }
         });
       });
-      
+
       return ['All', ...Array.from(uniqueOrderIds)];
     })
   );
@@ -56,5 +70,12 @@ export class PoList {
 
   filterOrderLines(value: string) {
     this.filterSubject.next(value);
+  }
+
+  
+
+  private checkRouteState() {
+    const currentUrl = this.router.url;
+    this.showWelcome.set(currentUrl.endsWith('/purchase-order'));
   }
 }

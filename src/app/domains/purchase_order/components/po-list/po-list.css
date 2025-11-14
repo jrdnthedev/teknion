@@ -16,7 +16,20 @@ section {
 #table-wrapper {
   margin-bottom: 16px;
 }
-
+#welcome-headline {
+  text-align: center;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#welcome-headline h2 {
+  font-size: 28px;
+}
+#welcome-headline p {
+  font-size: 22px;
+}
 @media screen and (min-width: 1024px) {
   main {
     flex-direction: row;

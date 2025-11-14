@@ -9,6 +9,12 @@
     </ul>
   </aside>
   <section>
+    @if (showWelcome()) {
+    <div id="welcome-headline">
+      <h2>Welcome To Purchase Order Application</h2>
+      <p>Select an order to begin</p>
+    </div>
+    }
     <router-outlet></router-outlet>
   </section>
 </main>
