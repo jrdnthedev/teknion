@@ -1,0 +1,26 @@
+<main>
+  <aside>
+    <ul id="po-listItems">
+      @for(order of (purchaseOrder$ | async); track order.poId) {
+      <li>
+        <a [routerLink]="'purchase-order-detail/' + order.poId">{{ order.poId }}</a>
+      </li>
+      }
+    </ul>
+  </aside>
+  <section>
+    <select
+      name="orderLines"
+      id="orderLines"
+      #orderSelect
+      (change)="filterOrderLines(orderSelect.value)"
+    >
+      @for(order of (orderIds$ | async); track order) {
+      <option [value]="order">{{ order }}</option>
+      }
+    </select>
+
+    <app-table [data]="(filteredOrderLines$ | async) || []" tableTitle="Order Lines Table"></app-table>
+    <router-outlet></router-outlet>
+  </section>
+</main>

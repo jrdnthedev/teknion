@@ -1,5 +1,6 @@
 <app-card>
   <div card-header>
+    @if(order$ | async; as order){
     <div class="detail-header">
       <h2>{{ order.poId }}</h2>
       <div id="order-details">
@@ -15,26 +16,36 @@
         }
       </ul>
     </div>
+    }
   </div>
   <div card-body>
+    @if(order$ | async; as order){
     <div class="detail-summary">
-      <h4>Logistics Summary</h4>
-      <ul>
-        <li>
-          <p>Total Shipments: {{ order.shipments.length }}</p>
-        </li>
-        <li>
-          <p>Order Date: {{ order.poDate | date }}</p>
-        </li>
-      </ul>
-      <h4>Order Lines</h4>
-      <ul>
-        @for(line of order.orderLines; track line.lineId) {
-        <li>
-          <p>{{ line.lineId }}</p>
-        </li>
-        }
-      </ul>
+      <div id="detail-overview">
+        <app-card>
+          <div card-header><h3>Logistics Summary</h3></div>
+          <div card-body>
+            <p>Total Shipments: {{ order.shipments.length }}</p>
+            <p>Total Lines: {{ order.orderLines.length }}</p>
+            <p>Order Date: {{ order.poDate | date }}</p>
+          </div>
+        </app-card>
+
+        <app-card>
+          <div card-header><h3>Order Lines</h3></div>
+          <div card-body>
+            <ul id="order-lines">
+              @for(line of order.orderLines; track line.lineId) {
+              <li>
+                <app-order-line [orderLine]="line"></app-order-line>
+              </li>
+              }
+            </ul>
+          </div>
+        </app-card>
+      </div>
+      <app-shipments-list [shipment]="order.shipments"></app-shipments-list>
     </div>
+    }
   </div>
 </app-card>

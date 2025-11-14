@@ -1,4 +1,4 @@
-export interface OrderLine {
+export interface OrderLineModel {
   lineId: string;
   itemSku: string;
   description: string;

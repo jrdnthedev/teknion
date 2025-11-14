@@ -1,5 +1,5 @@
 import { OrderAlert } from './order_alert';
-import { OrderLine } from './order_line';
+import { OrderLineModel } from './order_line';
 import { OrderTag } from './order_tag';
 import { ShipmentModel } from './shipment.model';
 
@@ -10,6 +10,6 @@ export interface PurchaseOrder {
   totalValue: number;
   poTags: OrderTag[];
   poAlerts: OrderAlert[];
-  orderLines: OrderLine[];
+  orderLines: OrderLineModel[];
   shipments: ShipmentModel[];
 }
