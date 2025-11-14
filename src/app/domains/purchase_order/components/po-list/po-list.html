@@ -9,18 +9,6 @@
     </ul>
   </aside>
   <section>
-    <select
-      name="orderLines"
-      id="orderLines"
-      #orderSelect
-      (change)="filterOrderLines(orderSelect.value)"
-    >
-      @for(order of (orderIds$ | async); track order) {
-      <option [value]="order">{{ order }}</option>
-      }
-    </select>
-
-    <app-table [data]="(filteredOrderLines$ | async) || []" tableTitle="Order Lines Table"></app-table>
     <router-outlet></router-outlet>
   </section>
 </main>
