@@ -1,0 +1,28 @@
+.detail-header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag-list span {
+    padding: 2px 4px;
+    background-color: antiquewhite;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.detail-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+ul {
+    padding-left: 16px;
+}
