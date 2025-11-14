@@ -6,11 +6,10 @@ import { AsyncPipe } from '@angular/common';
 import { OrderLineModel } from '../../models/order_line';
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Table } from '../../../../shared/components/table/table';
 
 @Component({
   selector: 'app-po-list',
-  imports: [RouterLink, RouterOutlet, AsyncPipe, Table],
+  imports: [RouterLink, RouterOutlet, AsyncPipe],
   templateUrl: './po-list.html',
   styleUrl: './po-list.css',
 })
