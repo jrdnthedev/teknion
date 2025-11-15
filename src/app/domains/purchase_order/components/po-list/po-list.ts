@@ -1,11 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
-import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Component, inject, signal, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { PurchaseOrder } from '../../models/purchase_order';
 import { PoService } from '../../services/po-service/po-service';
 import { AsyncPipe } from '@angular/common';
 import { OrderLineModel } from '../../models/order_line';
-import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { Nav } from '../../../../layout/components/nav/nav';
 
 @Component({
@@ -14,22 +14,23 @@ import { Nav } from '../../../../layout/components/nav/nav';
   templateUrl: './po-list.html',
   styleUrl: './po-list.css',
 })
-export class PoList {
+export class PoList implements OnInit, OnDestroy {
   purchaseOrderService = inject(PoService);
   purchaseOrder$ = this.purchaseOrderService.orders$;
   showWelcome = signal(true);
   private filterSubject = new BehaviorSubject<string>('All');
+  private destroy$ = new Subject<void>();
   constructor(private router: Router) {}
 
   ngOnInit() {
-    // Check initial route
     this.checkRouteState();
 
     // Listen for route changes
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        map(() => this.checkRouteState())
+        map(() => this.checkRouteState()),
+        takeUntil(this.destroy$)
       )
       .subscribe();
   }
@@ -58,7 +59,6 @@ export class PoList {
     map(([orders, filterValue]) => {
       if (!orders || orders.length === 0) return [];
 
-      // Assuming we want to get all order lines from all purchase orders
       const allOrderLines = orders.flatMap((order: PurchaseOrder) => order.orderLines || []);
 
       if (filterValue === 'All') {
@@ -76,5 +76,10 @@ export class PoList {
   private checkRouteState() {
     const currentUrl = this.router.url;
     this.showWelcome.set(currentUrl.endsWith('/purchase-order'));
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

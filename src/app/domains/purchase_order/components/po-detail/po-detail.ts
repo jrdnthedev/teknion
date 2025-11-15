@@ -1,10 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Card } from '../../../../shared/components/card/card';
 import { PurchaseOrder } from '../../models/purchase_order';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { PoService } from '../../services/po-service/po-service';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, switchMap, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ShipmentsList } from '../shipments-list/shipments-list';
 import { OrderLine } from '../order-line/order-line';
 import { OrderLineModel } from '../../models/order_line';
@@ -17,11 +18,12 @@ import { AlertBanner } from '../../../../shared/components/alert-banner/alert-ba
   templateUrl: './po-detail.html',
   styleUrl: './po-detail.css',
 })
-export class PoDetail implements OnInit {
+export class PoDetail implements OnInit, OnDestroy {
   purchaseOrderService = inject(PoService);
   order$!: Observable<PurchaseOrder | undefined>;
   purchaseOrder$ = this.purchaseOrderService.orders$;
   private filterSubject = new BehaviorSubject<string>('All');
+  private destroy$ = new Subject<void>();
 
   constructor(private route: ActivatedRoute) {}
 
@@ -29,7 +31,8 @@ export class PoDetail implements OnInit {
     // Make the component reactive to route parameter changes
     this.order$ = this.route.paramMap.pipe(
       map(params => params.get('poId') || ''),
-      switchMap(poId => this.purchaseOrderService.getOrderById$(poId))
+      switchMap(poId => this.purchaseOrderService.getOrderById$(poId)),
+      takeUntil(this.destroy$)
     );
   }
 
@@ -70,5 +73,10 @@ export class PoDetail implements OnInit {
 
   filterOrderLines(value: string) {
     this.filterSubject.next(value);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
