@@ -133,6 +133,14 @@ export const initialPOState: POState = {
           lineIds: ['LINE-003', 'LINE-004'],
           shipmentInstances: [],
         },
+        {
+          shipmentId: 'SHIP-005',
+          status: 'Booked',
+          shipmentAlerts: [],
+          loadPlan: 'LP-005',
+          lineIds: ['LINE-003', 'LINE-005'],
+          shipmentInstances: [],
+        },
       ],
     },
     {

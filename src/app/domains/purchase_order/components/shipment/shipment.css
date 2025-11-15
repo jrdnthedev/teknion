@@ -1,6 +1,3 @@
-.shipment-details {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+.card-details {
     font-size: 14px;
 }

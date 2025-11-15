@@ -25,9 +25,14 @@
         <app-card>
           <div card-header><h3>Logistics Summary</h3></div>
           <div card-body>
-            <p>Total Shipments: {{ order.shipments.length }}</p>
-            <p>Total Lines: {{ order.orderLines.length }}</p>
-            <p>Order Date: {{ order.poDate | date }}</p>
+            <div class="card-details">
+              <p>Total Shipments: {{ order.shipments.length }}</p>
+              <p>Total Lines: {{ order.orderLines.length }}</p>
+              <p>Order Date: {{ order.poDate | date }}</p>
+              @for(alert of order.poAlerts; track alert.alertId) {
+              <app-alert-banner [alert]="alert"></app-alert-banner>
+              }
+            </div>
           </div>
         </app-card>
 

@@ -9,10 +9,11 @@ import { ShipmentsList } from '../shipments-list/shipments-list';
 import { OrderLine } from '../order-line/order-line';
 import { OrderLineModel } from '../../models/order_line';
 import { Table } from '../../../../shared/components/table/table';
+import { AlertBanner } from '../../../../shared/components/alert-banner/alert-banner';
 
 @Component({
   selector: 'app-po-detail',
-  imports: [Card, DatePipe, AsyncPipe, ShipmentsList, OrderLine, Table],
+  imports: [Card, DatePipe, AsyncPipe, ShipmentsList, OrderLine, Table, AlertBanner],
   templateUrl: './po-detail.html',
   styleUrl: './po-detail.css',
 })
