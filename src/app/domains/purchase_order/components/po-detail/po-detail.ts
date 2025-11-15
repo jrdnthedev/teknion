@@ -36,6 +36,7 @@ export class PoDetail implements OnInit, OnDestroy {
     );
   }
 
+  //Get Ids for display in select element
   orderIds$: Observable<string[]> = this.purchaseOrder$.pipe(
     map((orders: PurchaseOrderModel[]) => {
       if (!orders || orders.length === 0) return ['All'];
@@ -53,6 +54,7 @@ export class PoDetail implements OnInit, OnDestroy {
     })
   );
 
+  //create filtered list of orderlines
   filteredOrderLines$: Observable<OrderLineModel[]> = combineLatest([
     this.purchaseOrder$,
     this.filterSubject,
