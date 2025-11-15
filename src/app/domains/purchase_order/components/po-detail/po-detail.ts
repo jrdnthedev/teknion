@@ -37,7 +37,7 @@ export class PoDetail implements OnInit, OnDestroy {
   }
 
   orderIds$: Observable<string[]> = this.purchaseOrder$.pipe(
-    map((orders) => {
+    map((orders: PurchaseOrderModel[]) => {
       if (!orders || orders.length === 0) return ['All'];
 
       const uniqueOrderIds = new Set<string>();

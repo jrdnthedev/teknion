@@ -12,13 +12,13 @@ export class PoService {
 
   // Get all purchase orders
   get orders$(): Observable<PurchaseOrderModel[]> {
-    return this._state$.pipe(map(state => state.orders));
+    return this._state$.pipe(map((state: POState) => state.orders));
   }
 
   // Get a specific purchase order by ID
   getOrderById$(poId: string): Observable<PurchaseOrderModel | undefined> {
     return this.orders$.pipe(
-      map(orders => orders.find(order => order.poId === poId))
+      map((orders: PurchaseOrderModel[]) => orders.find((order: PurchaseOrderModel) => order.poId === poId))
     );
   }
 }
