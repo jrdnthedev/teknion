@@ -1,7 +1,7 @@
-import { PurchaseOrder } from '../models/purchase_order.model';
+import { PurchaseOrderModel } from '../models/purchase_order.model';
 
 export interface POState {
-  orders: PurchaseOrder[];
+  orders: PurchaseOrderModel[];
 }
 
 export const initialPOState: POState = {
