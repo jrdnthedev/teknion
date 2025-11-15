@@ -1,15 +1,15 @@
 <nav>
   <!-- Mobile menu button -->
-  <button
+  <div id="mobile-btn-wrapper">
+    <button
     id="mobile-menu-btn"
     (click)="toggleMenu()"
     [attr.aria-expanded]="isMenuOpen()"
     aria-label="Toggle navigation menu"
   >
     <span class="hamburger-line"></span>
-    <span class="hamburger-line"></span>
-    <span class="hamburger-line"></span>
   </button>
+  </div>
   <ul id="po-listItems" [class.nav-menu-open]="isMenuOpen()">
     @for(order of navItems; track order.poId) {
     <li>

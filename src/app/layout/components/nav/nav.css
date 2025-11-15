@@ -20,35 +20,52 @@ nav {
   padding: 12px 16px;
 }
 
+#mobile-btn-wrapper {
+  position: relative;
+}
 #mobile-menu-btn {
   display: none;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 25px;
-  height: 25px;
-  background: transparent;
+  background: none;
   border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 10;
+  width: 30px;
+  height: 30px;
 }
-#mobile-menu-btn .hamburger-line {
-  width: 25px;
-  height: 2px;
-  background-color: #333;
-  transition: all 0.3s linear;
-  transform-origin: 1px;
+.hamburger-line,
+.hamburger-line::before,
+.hamburger-line::after {
+  display: block;
+  background-color: #000;
+  position: absolute;
+  height: 4px;
+  width: 20px;
+  transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
+  border-radius: 2px;
+  margin-top: 12px;
+  margin-right: 9px;
 }
 
-#mobile-menu-btn[aria-expanded='true'] .hamburger-line:first-child {
-  transform: rotate(45deg);
+.hamburger-line::before {
+  content: '';
+  margin-top: -8px;
 }
 
-#mobile-menu-btn[aria-expanded='true'] .hamburger-line:nth-child(2) {
-  opacity: 0;
+.hamburger-line::after {
+  content: '';
+  margin-top: 8px;
 }
-#mobile-menu-btn[aria-expanded='true'] .hamburger-line:nth-child(3) {
-  transform: rotate(-45deg);
+
+#mobile-menu-btn[aria-expanded='true'] .hamburger-line::before {
+  margin-top: 0px;
+  transform: rotate(405deg);
+}
+
+#mobile-menu-btn[aria-expanded='true'] .hamburger-line {
+  background: rgba(255, 255, 255, 0);
+}
+
+#mobile-menu-btn[aria-expanded='true'] .hamburger-line::after {
+  margin-top: 0px;
+  transform: rotate(-405deg);
 }
 
 @media screen and (max-width: 768px) {
@@ -57,7 +74,7 @@ nav {
   }
   #po-listItems {
     position: absolute;
-    top: 30px;
+    top: 43px;
     left: 0;
     right: 0;
     background-color: #ffffff;
