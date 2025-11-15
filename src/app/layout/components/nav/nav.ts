@@ -1,5 +1,5 @@
 import { Component, Input, signal } from '@angular/core';
-import { PurchaseOrder } from '../../../domains/purchase_order/models/purchase_order.model';
+import { PurchaseOrderModel } from '../../../domains/purchase_order/models/purchase_order.model';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './nav.css',
 })
 export class Nav {
-  @Input() navItems!: PurchaseOrder[];
+  @Input() navItems!: PurchaseOrderModel[];
 
   isMenuOpen = signal(false);
 

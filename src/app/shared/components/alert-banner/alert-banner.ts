@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { OrderAlert } from '../../../domains/purchase_order/models/order_alert.model';
+import { OrderAlertModel } from '../../../domains/purchase_order/models/order_alert.model';
 
 @Component({
   selector: 'app-alert-banner',
@@ -9,5 +9,5 @@ import { OrderAlert } from '../../../domains/purchase_order/models/order_alert.m
   styleUrl: './alert-banner.css',
 })
 export class AlertBanner {
-  @Input() alert!: OrderAlert;
+  @Input() alert!: OrderAlertModel;
 }
