@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Card } from '../../../../shared/components/card/card';
-import { PurchaseOrder } from '../../models/purchase_order';
+import { PurchaseOrderModel } from '../../models/purchase_order.model';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { PoService } from '../../services/po-service/po-service';
 import { ActivatedRoute } from '@angular/router';
@@ -8,7 +8,7 @@ import { BehaviorSubject, combineLatest, map, Observable, switchMap, Subject } f
 import { takeUntil } from 'rxjs/operators';
 import { ShipmentsList } from '../shipments-list/shipments-list';
 import { OrderLine } from '../order-line/order-line';
-import { OrderLineModel } from '../../models/order_line';
+import { OrderLineModel } from '../../models/order_line.model';
 import { Table } from '../../../../shared/components/table/table';
 import { AlertBanner } from '../../../../shared/components/alert-banner/alert-banner';
 
@@ -20,7 +20,7 @@ import { AlertBanner } from '../../../../shared/components/alert-banner/alert-ba
 })
 export class PoDetail implements OnInit, OnDestroy {
   purchaseOrderService = inject(PoService);
-  order$!: Observable<PurchaseOrder | undefined>;
+  order$!: Observable<PurchaseOrderModel | undefined>;
   purchaseOrder$ = this.purchaseOrderService.orders$;
   private filterSubject = new BehaviorSubject<string>('All');
   private destroy$ = new Subject<void>();
@@ -41,7 +41,7 @@ export class PoDetail implements OnInit, OnDestroy {
       if (!orders || orders.length === 0) return ['All'];
 
       const uniqueOrderIds = new Set<string>();
-      orders.forEach((order: PurchaseOrder) => {
+      orders.forEach((order: PurchaseOrderModel) => {
         order.orderLines?.forEach((line: OrderLineModel) => {
           if (line.lineId) {
             uniqueOrderIds.add(line.lineId);
@@ -61,7 +61,7 @@ export class PoDetail implements OnInit, OnDestroy {
       if (!orders || orders.length === 0) return [];
 
       // Assuming we want to get all order lines from all purchase orders
-      const allOrderLines = orders.flatMap((order: PurchaseOrder) => order.orderLines || []);
+      const allOrderLines = orders.flatMap((order: PurchaseOrderModel) => order.orderLines || []);
 
       if (filterValue === 'All') {
         return allOrderLines;

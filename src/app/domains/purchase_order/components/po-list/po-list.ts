@@ -1,9 +1,9 @@
 import { Component, inject, signal, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { PurchaseOrder } from '../../models/purchase_order';
+import { PurchaseOrderModel } from '../../models/purchase_order.model';
 import { PoService } from '../../services/po-service/po-service';
 import { AsyncPipe } from '@angular/common';
-import { OrderLineModel } from '../../models/order_line';
+import { OrderLineModel } from '../../models/order_line.model';
 import { Observable, BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { Nav } from '../../../../layout/components/nav/nav';
@@ -40,7 +40,7 @@ export class PoList implements OnInit, OnDestroy {
       if (!orders || orders.length === 0) return ['All'];
 
       const uniqueOrderIds = new Set<string>();
-      orders.forEach((order: PurchaseOrder) => {
+      orders.forEach((order: PurchaseOrderModel) => {
         order.orderLines?.forEach((line: OrderLineModel) => {
           if (line.lineId) {
             uniqueOrderIds.add(line.lineId);
@@ -59,7 +59,7 @@ export class PoList implements OnInit, OnDestroy {
     map(([orders, filterValue]) => {
       if (!orders || orders.length === 0) return [];
 
-      const allOrderLines = orders.flatMap((order: PurchaseOrder) => order.orderLines || []);
+      const allOrderLines = orders.flatMap((order: PurchaseOrderModel) => order.orderLines || []);
 
       if (filterValue === 'All') {
         return allOrderLines;

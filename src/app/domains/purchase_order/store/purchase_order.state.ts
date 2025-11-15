@@ -1,4 +1,4 @@
-import { PurchaseOrder } from '../models/purchase_order';
+import { PurchaseOrder } from '../models/purchase_order.model';
 
 export interface POState {
   orders: PurchaseOrder[];

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { OrderLineModel } from '../../models/order_line';
+import { OrderLineModel } from '../../models/order_line.model';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({

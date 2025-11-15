@@ -1,9 +1,9 @@
-import { OrderAlert } from './order_alert';
+import { OrderAlertModel } from './order_alert.model';
 
 export interface ShipmentInstanceModel {
   instanceId: string;
   status: 'In Transit' | 'Delivered' | 'Delayed';
-  instanceAlerts: OrderAlert[];
+  instanceAlerts: OrderAlertModel[];
   lineIds: string[];
   trakcingDetail: {
     carrier: string;

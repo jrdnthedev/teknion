@@ -1,5 +1,5 @@
 import { Component, Input, signal } from '@angular/core';
-import { PurchaseOrder } from '../../../domains/purchase_order/models/purchase_order';
+import { PurchaseOrder } from '../../../domains/purchase_order/models/purchase_order.model';
 import { RouterLink } from '@angular/router';
 
 @Component({
