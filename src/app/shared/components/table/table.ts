@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 export interface TableColumn {
   key: string;
@@ -6,7 +6,7 @@ export interface TableColumn {
 }
 @Component({
   selector: 'app-table',
-  imports: [CommonModule],
+  imports: [CommonModule, CurrencyPipe],
   templateUrl: './table.html',
   styleUrl: './table.css',
 })
@@ -32,7 +32,16 @@ export class Table<T> {
     return column ? column.label : key;
   }
 
-  getValue(row: T, key: string): T {
-    return (row as any)[key];
+  getValue(row: T, key: string): any {
+    const value = (row as any)[key];
+    // Check if the key represents a price/currency field
+    if (key.toLowerCase().includes('price') && typeof value === 'number') {
+      return value;
+    }
+    return value;
+  }
+
+  isCurrencyField(key: string): boolean {
+    return key.toLowerCase().includes('price');
   }
 }

@@ -15,7 +15,11 @@
         <tr>
           @for (header of headers; track $index) {
             <td [attr.data-label]="getHeaderLabel(header)">
-              {{ getValue(row, header) }}
+              @if (isCurrencyField(header)) {
+                {{ getValue(row, header) | currency }}
+              } @else {
+                {{ getValue(row, header) }}
+              }
             </td>
           }
         </tr>
