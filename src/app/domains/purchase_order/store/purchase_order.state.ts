@@ -98,5 +98,91 @@ export const initialPOState: POState = {
         },
       ],
     },
+    {
+      poId: 'PO-20231115-002',
+      status: 'Active',
+      poDate: '2023-11-15',
+      totalValue: 8420.0,
+      poTags: [
+        { key: 'Priority', value: 'Medium' },
+        { key: 'Region', value: 'Europe' },
+      ],
+      poAlerts: [{ alertId: 'ALRT-003', severity: 'Low' }],
+      orderLines: [
+        {
+          lineId: 'LINE-003',
+          itemSku: 'SKU-2001',
+          description: 'Thermal Sensor',
+          quantity: 10,
+          price: 500.0,
+        },
+        {
+          lineId: 'LINE-004',
+          itemSku: 'SKU-2002',
+          description: 'Control Panel',
+          quantity: 2,
+          price: 1610.0,
+        },
+      ],
+      shipments: [
+        {
+          shipmentId: 'SHIP-004',
+          status: 'Booked',
+          shipmentAlerts: [],
+          loadPlan: 'LP-004',
+          lineIds: ['LINE-003', 'LINE-004'],
+          shipmentInstances: [],
+        },
+      ],
+    },
+    {
+      poId: 'PO-20231120-003',
+      status: 'Active',
+      poDate: '2023-11-20',
+      totalValue: 3100.5,
+      poTags: [
+        { key: 'Priority', value: 'Low' },
+        { key: 'Region', value: 'Asia Pacific' },
+      ],
+      poAlerts: [{ alertId: 'ALRT-004', severity: 'Medium' }],
+      orderLines: [
+        {
+          lineId: 'LINE-005',
+          itemSku: 'SKU-3001',
+          description: 'LED Display',
+          quantity: 15,
+          price: 100.0,
+        },
+        {
+          lineId: 'LINE-006',
+          itemSku: 'SKU-3002',
+          description: 'Mounting Bracket',
+          quantity: 30,
+          price: 35.0,
+        },
+      ],
+      shipments: [
+        {
+          shipmentId: 'SHIP-005',
+          status: 'Complete',
+          shipmentAlerts: [],
+          loadPlan: 'LP-005',
+          lineIds: ['LINE-005', 'LINE-006'],
+          shipmentInstances: [
+            {
+              instanceId: 'INST-005-A',
+              status: 'Delivered',
+              instanceAlerts: [],
+              lineIds: ['LINE-005', 'LINE-006'],
+              trakcingDetail: {
+                carrier: 'BlueDart',
+                trackingNumber: 'BD123456789',
+                lastUpdate: '2023-11-21T09:00:00Z',
+              },
+            },
+          ],
+        },
+      ],
+    },
   ],
 };

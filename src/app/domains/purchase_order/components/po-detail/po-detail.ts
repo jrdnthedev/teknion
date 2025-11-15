@@ -4,7 +4,7 @@ import { PurchaseOrder } from '../../models/purchase_order';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { PoService } from '../../services/po-service/po-service';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, switchMap } from 'rxjs';
 import { ShipmentsList } from '../shipments-list/shipments-list';
 import { OrderLine } from '../order-line/order-line';
 import { OrderLineModel } from '../../models/order_line';
@@ -21,19 +21,15 @@ export class PoDetail implements OnInit {
   order$!: Observable<PurchaseOrder | undefined>;
   purchaseOrder$ = this.purchaseOrderService.orders$;
   private filterSubject = new BehaviorSubject<string>('All');
-  private poId = '';
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.poId = this.route.snapshot.paramMap.get('poId') || '';
-    this.loadPurchaseOrder();
-  }
-
-  private loadPurchaseOrder() {
-    if (this.poId) {
-      this.order$ = this.purchaseOrderService.getOrderById$(this.poId);
-    }
+    // Make the component reactive to route parameter changes
+    this.order$ = this.route.paramMap.pipe(
+      map(params => params.get('poId') || ''),
+      switchMap(poId => this.purchaseOrderService.getOrderById$(poId))
+    );
   }
 
   orderIds$: Observable<string[]> = this.purchaseOrder$.pipe(
