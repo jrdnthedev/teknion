@@ -1,12 +1,6 @@
 <main>
   <aside>
-    <ul id="po-listItems">
-      @for(order of (purchaseOrder$ | async); track order.poId) {
-      <li>
-        <a [routerLink]="'purchase-order-detail/' + order.poId">{{ order.poId }}</a>
-      </li>
-      }
-    </ul>
+    <app-nav [navItems]="(purchaseOrder$ | async) ?? []"></app-nav>
   </aside>
   <section>
     @if (showWelcome()) {

@@ -6,10 +6,11 @@ import { AsyncPipe } from '@angular/common';
 import { OrderLineModel } from '../../models/order_line';
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { Nav } from '../../../../layout/components/nav/nav';
 
 @Component({
   selector: 'app-po-list',
-  imports: [RouterLink, RouterOutlet, AsyncPipe],
+  imports: [RouterOutlet, AsyncPipe, Nav],
   templateUrl: './po-list.html',
   styleUrl: './po-list.css',
 })
@@ -71,8 +72,6 @@ export class PoList {
   filterOrderLines(value: string) {
     this.filterSubject.next(value);
   }
-
-  
 
   private checkRouteState() {
     const currentUrl = this.router.url;

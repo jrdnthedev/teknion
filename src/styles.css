@@ -52,6 +52,9 @@ option {
   cursor: pointer;
 }
 
+a{
+  text-decoration: none;
+}
 .card-details {
   display: flex;
   flex-direction: column;
