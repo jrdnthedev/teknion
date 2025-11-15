@@ -1,10 +1,8 @@
 import { Component, inject, signal, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { PurchaseOrderModel } from '../../models/purchase_order.model';
 import { PoService } from '../../services/po-service/po-service';
 import { AsyncPipe } from '@angular/common';
-import { OrderLineModel } from '../../models/order_line.model';
-import { Observable, BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { Nav } from '../../../../layout/components/nav/nav';
 
@@ -18,7 +16,6 @@ export class PoList implements OnInit, OnDestroy {
   purchaseOrderService = inject(PoService);
   purchaseOrder$ = this.purchaseOrderService.orders$;
   showWelcome = signal(true);
-  private filterSubject = new BehaviorSubject<string>('All');
   private destroy$ = new Subject<void>();
   constructor(private router: Router) {}
 
@@ -33,44 +30,6 @@ export class PoList implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe();
-  }
-
-  orderIds$: Observable<string[]> = this.purchaseOrder$.pipe(
-    map((orders) => {
-      if (!orders || orders.length === 0) return ['All'];
-
-      const uniqueOrderIds = new Set<string>();
-      orders.forEach((order: PurchaseOrderModel) => {
-        order.orderLines?.forEach((line: OrderLineModel) => {
-          if (line.lineId) {
-            uniqueOrderIds.add(line.lineId);
-          }
-        });
-      });
-
-      return ['All', ...Array.from(uniqueOrderIds)];
-    })
-  );
-
-  filteredOrderLines$: Observable<OrderLineModel[]> = combineLatest([
-    this.purchaseOrder$,
-    this.filterSubject,
-  ]).pipe(
-    map(([orders, filterValue]) => {
-      if (!orders || orders.length === 0) return [];
-
-      const allOrderLines = orders.flatMap((order: PurchaseOrderModel) => order.orderLines || []);
-
-      if (filterValue === 'All') {
-        return allOrderLines;
-      } else {
-        return allOrderLines.filter((item: OrderLineModel) => item.lineId === filterValue);
-      }
-    })
-  );
-
-  filterOrderLines(value: string) {
-    this.filterSubject.next(value);
   }
 
   private checkRouteState() {
