@@ -51,7 +51,7 @@ export class PoDetail implements OnInit {
     );
 
     this.filterOptions$ = this.order$.pipe(
-      map(order => this.generateFilterOptions(order))
+      map((order: PurchaseOrderModel | undefined) => this.generateFilterOptions(order))
     );
 
     this.currentFilter$ = this.filterSubject.asObservable();
