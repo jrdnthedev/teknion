@@ -1,59 +1,155 @@
-# Teknion
+# Teknion - Purchase Order Management System
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.4.
+A modern Angular application for managing purchase orders, shipments, and order tracking. Built with Angular 20.3 and featuring Server-Side Rendering (SSR) support.
 
-## Development server
+## 🚀 Features
 
-To start a local development server, run:
+- **Purchase Order Management**: View, track, and manage purchase orders with detailed status information
+- **Shipment Tracking**: Monitor shipments across multiple carriers (FedEx, UPS, DHL, BlueDart)
+- **Real-time Alerts**: Track order and shipment alerts with severity levels
+- **Responsive Design**: Mobile-friendly interface with reusable component library
+- **Server-Side Rendering**: Enhanced performance and SEO with Angular SSR
+- **Modern Architecture**: Domain-driven design with reactive state management
 
+## 📋 Application Structure
+
+### Core Domains
+- **Purchase Orders**: Complete order lifecycle management
+- **Shipments**: Multi-instance shipment tracking with carrier integration
+- **Order Lines**: Individual item tracking and management
+
+### Shared Components
+- **Table**: Generic data table with currency formatting
+- **Card**: Reusable content containers
+- **Accordion**: Collapsible content sections
+- **Alert Banner**: Status and notification display
+- **Navigation**: Application routing and layout
+
+## 🛠️ Technology Stack
+
+- **Angular 20.3** - Modern web framework
+- **TypeScript 5.9** - Type-safe development
+- **RxJS 7.8** - Reactive programming
+- **Angular SSR** - Server-side rendering
+- **Express 5.1** - Server runtime
+- **Jasmine & Karma** - Testing framework
+
+## 🚦 Getting Started
+
+### Prerequisites
+- Node.js ^18.0.0
+- npm (included with Node.js)
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd teknion
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+### Development
+
+Start the development server:
 ```bash
+npm start
+# or
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Navigate to `http://localhost:4200/`. The app will automatically reload when you change source files.
 
-## Code scaffolding
+### Available Scripts
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+```bash
+npm start          # Start development server
+npm run build      # Build for production
+npm run watch      # Build in watch mode for development
+npm test           # Run unit tests
+npm run serve:ssr:teknion  # Serve SSR build
+```
 
+## 🏗️ Building
+
+Build the project for production:
+```bash
+npm run build
+```
+
+The build artifacts will be stored in the `dist/` directory, optimized for production deployment.
+
+## 🧪 Testing
+
+Run the unit test suite:
+```bash
+npm test
+```
+
+Tests are written using Jasmine and executed with Karma test runner.
+
+## 📱 Application Routes
+
+- `/` - Redirects to purchase orders
+- `/purchase-order` - Purchase order list view
+- `/purchase-order/purchase-order-detail/:poId` - Detailed order view
+
+## 🔧 Development Guidelines
+
+### Code Organization
+- **Domain-driven structure**: Features organized by business domain
+- **Component isolation**: Each component has its own CSS, HTML, and spec files
+- **Shared utilities**: Reusable components in the shared module
+- **State management**: Reactive state using RxJS BehaviorSubject
+
+### Code Scaffolding
+Generate new components:
 ```bash
 ng generate component component-name
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
+View all available schematics:
 ```bash
 ng generate --help
 ```
 
-## Building
+## 🌐 Server-Side Rendering
 
-To build the project run:
+This application supports SSR for improved performance and SEO. The server build includes:
+- Express server setup
+- Angular Universal integration
+- Optimized server-side rendering
 
-```bash
-ng build
-```
+## 📦 Dependencies
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Core Dependencies
+- `@angular/core`, `@angular/common`, `@angular/router` - Angular framework
+- `@angular/ssr` - Server-side rendering support
+- `rxjs` - Reactive programming library
+- `express` - Server runtime
 
-## Running unit tests
+### Development Dependencies
+- `@angular/cli` - Angular development tools
+- `typescript` - TypeScript compiler
+- `jasmine-core`, `karma` - Testing framework
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## 🤝 Contributing
 
-```bash
-ng test
-```
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests for new functionality
+5. Run the test suite
+6. Submit a pull request
 
-## Running end-to-end tests
+## 📄 License
 
-For end-to-end (e2e) testing, run:
+This project is private and proprietary.
 
-```bash
-ng e2e
-```
+## 📞 Support
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+For support and questions, please contact the development team.
