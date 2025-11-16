@@ -11,6 +11,8 @@ import { OrderLine } from '../order-line/order-line';
 import { OrderLineModel } from '../../models/order_line.model';
 import { Table } from '../../../../shared/components/table/table';
 import { AlertBanner } from '../../../../shared/components/alert-banner/alert-banner';
+import { ShipmentModel } from '../../models/shipment.model';
+import { ShipmentInstanceModel } from '../../models/shipment_instance.model';
 
 interface FilterOption {
   value: string;
@@ -73,14 +75,14 @@ export class PoDetail implements OnInit {
 
     const options: FilterOption[] = [{ value: 'all', label: 'All Lines', type: 'all' }];
 
-    order.shipments?.forEach(shipment => {
+    order.shipments?.forEach((shipment: ShipmentModel) => {
       options.push({
         value: shipment.shipmentId,
         label: `Shipment: ${shipment.shipmentId}`,
         type: 'shipment'
       });
 
-      shipment.shipmentInstances?.forEach(instance => {
+      shipment.shipmentInstances?.forEach((instance: ShipmentInstanceModel) => {
         options.push({
           value: instance.instanceId,
           label: `Instance: ${instance.instanceId}`,
@@ -97,16 +99,16 @@ export class PoDetail implements OnInit {
     if (filterValue === 'all') return order.orderLines;
 
     // Check shipments first
-    const shipment = order.shipments?.find(s => s.shipmentId === filterValue);
+    const shipment = order.shipments?.find((shipment: ShipmentModel) => shipment.shipmentId === filterValue);
     if (shipment) {
-      return order.orderLines.filter(line => shipment.lineIds.includes(line.lineId));
+      return order.orderLines.filter((line: OrderLineModel) => shipment.lineIds.includes(line.lineId));
     }
 
     // Check shipment instances
     for (const ship of order.shipments || []) {
-      const instance = ship.shipmentInstances?.find(i => i.instanceId === filterValue);
+      const instance = ship.shipmentInstances?.find((instance: ShipmentInstanceModel) => instance.instanceId === filterValue);
       if (instance) {
-        return order.orderLines.filter(line => instance.lineIds.includes(line.lineId));
+        return order.orderLines.filter((line: OrderLineModel) => instance.lineIds.includes(line.lineId));
       }
     }
 
