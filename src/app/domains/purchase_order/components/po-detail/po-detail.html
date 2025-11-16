@@ -56,6 +56,7 @@
       <select
         name="orderLines"
         id="orderLines"
+        [value]="(currentFilter$ | async) || 'all'"
         #orderSelect
         (change)="filterOrderLines(orderSelect.value)"
       >

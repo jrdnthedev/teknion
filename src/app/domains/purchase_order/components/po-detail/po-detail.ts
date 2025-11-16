@@ -34,8 +34,16 @@ export class PoDetail implements OnInit {
   order$!: Observable<PurchaseOrderModel | undefined>;
   filterOptions$!: Observable<FilterOption[]>;
   filteredOrderLines$!: Observable<OrderLineModel[]>;
+  currentFilter$!: Observable<string>;
 
   ngOnInit() {
+    // Reset filter to 'all' when navigating to a new order
+    this.route.paramMap.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(() => {
+      this.filterSubject.next('all');
+    });
+
     this.order$ = this.route.paramMap.pipe(
       map(params => params.get('poId') || ''),
       switchMap(poId => this.poService.getOrderById$(poId)),
@@ -45,6 +53,8 @@ export class PoDetail implements OnInit {
     this.filterOptions$ = this.order$.pipe(
       map(order => this.generateFilterOptions(order))
     );
+
+    this.currentFilter$ = this.filterSubject.asObservable();
 
     this.filteredOrderLines$ = combineLatest([
       this.order$,
