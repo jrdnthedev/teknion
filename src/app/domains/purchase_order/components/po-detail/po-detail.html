@@ -59,8 +59,8 @@
         #orderSelect
         (change)="filterOrderLines(orderSelect.value)"
       >
-        @for(order of (orderIds$ | async); track order) {
-        <option [value]="order">{{ order }}</option>
+        @for(option of (filterOptions$ | async); track option.value) {
+        <option [value]="option.value">{{ option.label }}</option>
         }
       </select>
     </div>

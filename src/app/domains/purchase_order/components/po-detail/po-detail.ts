@@ -1,16 +1,22 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, DestroyRef } from '@angular/core';
 import { Card } from '../../../../shared/components/card/card';
 import { PurchaseOrderModel } from '../../models/purchase_order.model';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { PoService } from '../../services/po-service/po-service';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, map, Observable, switchMap, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, map, Observable, switchMap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ShipmentsList } from '../shipments-list/shipments-list';
 import { OrderLine } from '../order-line/order-line';
 import { OrderLineModel } from '../../models/order_line.model';
 import { Table } from '../../../../shared/components/table/table';
 import { AlertBanner } from '../../../../shared/components/alert-banner/alert-banner';
+
+interface FilterOption {
+  value: string;
+  label: string;
+  type: 'all' | 'shipment' | 'instance';
+}
 
 @Component({
   selector: 'app-po-detail',
@@ -18,67 +24,82 @@ import { AlertBanner } from '../../../../shared/components/alert-banner/alert-ba
   templateUrl: './po-detail.html',
   styleUrl: './po-detail.css',
 })
-export class PoDetail implements OnInit, OnDestroy {
-  purchaseOrderService = inject(PoService);
+export class PoDetail implements OnInit {
+  private poService = inject(PoService);
+  private route = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
+  
+  private filterSubject = new BehaviorSubject<string>('all');
+  
   order$!: Observable<PurchaseOrderModel | undefined>;
-  purchaseOrder$ = this.purchaseOrderService.orders$;
-  private filterSubject = new BehaviorSubject<string>('All');
-  private destroy$ = new Subject<void>();
-
-  constructor(private route: ActivatedRoute) {}
+  filterOptions$!: Observable<FilterOption[]>;
+  filteredOrderLines$!: Observable<OrderLineModel[]>;
 
   ngOnInit() {
-    // Make the component reactive to route parameter changes
     this.order$ = this.route.paramMap.pipe(
       map(params => params.get('poId') || ''),
-      switchMap(poId => this.purchaseOrderService.getOrderById$(poId)),
-      takeUntil(this.destroy$)
+      switchMap(poId => this.poService.getOrderById$(poId)),
+      takeUntilDestroyed(this.destroyRef)
+    );
+
+    this.filterOptions$ = this.order$.pipe(
+      map(order => this.generateFilterOptions(order))
+    );
+
+    this.filteredOrderLines$ = combineLatest([
+      this.order$,
+      this.filterSubject
+    ]).pipe(
+      map(([order, filterValue]) => this.filterOrderLinesByValue(order, filterValue))
     );
   }
-
-  //Get Ids for display in select element
-  orderIds$: Observable<string[]> = this.purchaseOrder$.pipe(
-    map((orders: PurchaseOrderModel[]) => {
-      if (!orders || orders.length === 0) return ['All'];
-
-      const uniqueOrderIds = new Set<string>();
-      orders.forEach((order: PurchaseOrderModel) => {
-        order.orderLines?.forEach((line: OrderLineModel) => {
-          if (line.lineId) {
-            uniqueOrderIds.add(line.lineId);
-          }
-        });
-      });
-
-      return ['All', ...Array.from(uniqueOrderIds)];
-    })
-  );
-
-  //create filtered list of orderlines
-  filteredOrderLines$: Observable<OrderLineModel[]> = combineLatest([
-    this.purchaseOrder$,
-    this.filterSubject,
-  ]).pipe(
-    map(([orders, filterValue]) => {
-      if (!orders || orders.length === 0) return [];
-
-      // Assuming we want to get all order lines from all purchase orders
-      const allOrderLines = orders.flatMap((order: PurchaseOrderModel) => order.orderLines || []);
-
-      if (filterValue === 'All') {
-        return allOrderLines;
-      } else {
-        return allOrderLines.filter((item: OrderLineModel) => item.lineId === filterValue);
-      }
-    })
-  );
 
   filterOrderLines(value: string) {
     this.filterSubject.next(value);
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+  private generateFilterOptions(order: PurchaseOrderModel | undefined): FilterOption[] {
+    if (!order) return [{ value: 'all', label: 'All Lines', type: 'all' }];
+
+    const options: FilterOption[] = [{ value: 'all', label: 'All Lines', type: 'all' }];
+
+    order.shipments?.forEach(shipment => {
+      options.push({
+        value: shipment.shipmentId,
+        label: `Shipment: ${shipment.shipmentId}`,
+        type: 'shipment'
+      });
+
+      shipment.shipmentInstances?.forEach(instance => {
+        options.push({
+          value: instance.instanceId,
+          label: `Instance: ${instance.instanceId}`,
+          type: 'instance'
+        });
+      });
+    });
+
+    return options;
+  }
+
+  private filterOrderLinesByValue(order: PurchaseOrderModel | undefined, filterValue: string): OrderLineModel[] {
+    if (!order?.orderLines) return [];
+    if (filterValue === 'all') return order.orderLines;
+
+    // Check shipments first
+    const shipment = order.shipments?.find(s => s.shipmentId === filterValue);
+    if (shipment) {
+      return order.orderLines.filter(line => shipment.lineIds.includes(line.lineId));
+    }
+
+    // Check shipment instances
+    for (const ship of order.shipments || []) {
+      const instance = ship.shipmentInstances?.find(i => i.instanceId === filterValue);
+      if (instance) {
+        return order.orderLines.filter(line => instance.lineIds.includes(line.lineId));
+      }
+    }
+
+    return [];
   }
 }
