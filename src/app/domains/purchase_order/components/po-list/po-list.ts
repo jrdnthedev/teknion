@@ -1,10 +1,10 @@
-import { Component, inject, signal, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { PoService } from '../../services/po-service/po-service';
 import { AsyncPipe } from '@angular/common';
-import { Subject } from 'rxjs';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Nav } from '../../../../layout/components/nav/nav';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-po-list',
@@ -12,11 +12,11 @@ import { Nav } from '../../../../layout/components/nav/nav';
   templateUrl: './po-list.html',
   styleUrl: './po-list.css',
 })
-export class PoList implements OnInit, OnDestroy {
+export class PoList implements OnInit {
   purchaseOrderService = inject(PoService);
   purchaseOrder$ = this.purchaseOrderService.orders$;
   showWelcome = signal(true);
-  private destroy$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
   constructor(private router: Router) {}
 
   ngOnInit() {
@@ -27,7 +27,7 @@ export class PoList implements OnInit, OnDestroy {
       .pipe(
         filter((event) => event instanceof NavigationEnd),
         map(() => this.checkRouteState()),
-        takeUntil(this.destroy$)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }
@@ -35,10 +35,5 @@ export class PoList implements OnInit, OnDestroy {
   private checkRouteState() {
     const currentUrl = this.router.url;
     this.showWelcome.set(currentUrl.endsWith('/purchase-order'));
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }
