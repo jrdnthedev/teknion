@@ -2,7 +2,7 @@ import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { PoService } from '../../services/po-service/po-service';
 import { AsyncPipe } from '@angular/common';
-import { filter, map } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { Nav } from '../../../../layout/components/nav/nav';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -13,27 +13,25 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrl: './po-list.css',
 })
 export class PoList implements OnInit {
+  private router = inject(Router);
   purchaseOrderService = inject(PoService);
+  private destroyRef = inject(DestroyRef);
   purchaseOrder$ = this.purchaseOrderService.orders$;
   showWelcome = signal(true);
-  private destroyRef = inject(DestroyRef);
-  constructor(private router: Router) {}
 
   ngOnInit() {
-    this.checkRouteState();
+    this.updateWelcomeState();
 
     // Listen for route changes
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        map(() => this.checkRouteState()),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe();
+      .subscribe(() => this.updateWelcomeState());
   }
 
-  private checkRouteState() {
-    const currentUrl = this.router.url;
-    this.showWelcome.set(currentUrl.endsWith('/purchase-order'));
+  private updateWelcomeState() {
+    this.showWelcome.set(this.router.url === '/purchase-order');
   }
 }
