@@ -41,6 +41,15 @@
 #select-wrapper {
   margin: 12px 0;
 }
+
+#order-lines li{
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+}
+#order-lines li:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
 @media screen and (min-width: 768px) {
   .detail-summary {
     flex-direction: row;
