@@ -207,7 +207,3 @@ This application includes full SSR support for improved performance and SEO:
 ## 📄 License
 
 This project is private and proprietary.
-
-## 📞 Support
-
-For support and questions, please contact the development team.
